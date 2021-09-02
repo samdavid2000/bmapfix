@@ -76,8 +76,7 @@ clean:
 doc: binaries
 	for i in $(BINARIES) ; do ./$$i --sgml > $$i-invoke.sgml ; done
 	m4 < bmap.sgml.m4 > bmap.sgml
-	sgml2latex bmap.sgml
-
+	linuxdoc -B latex bmap.sgml
 release: clean
 	cvs commit -m "see README" && cvs rtag release-"${VERSION}-`echo ${PATCHLEVEL} | tr . - `" ${PKG_NAME}
 

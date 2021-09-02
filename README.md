@@ -4,6 +4,59 @@ bmap source code from 2000 would build correctly on my 64-bit machine but there 
 # Install
 Run `make`
 
+# Steps I did to get it working
+Step 1: Do a git clone of this bitmap repository (or the original repository)
+
+- `git clone https://github.com/samdavid2000/bmapfix.git`
+
+or
+
+- `git clone https://github.com/CameronLonsdale/bmap.git`
+
+Step 2: Run make inside the repository folder
+
+- `make`
+
+Error 1: "fatal error: bits/libc-header-start.h: No such file or directory"
+
+Solution:
+
+- `sudo apt-get install gcc-multilib`
+
+Error 2: "/bin/sh: 1: m4: not found"
+
+Solution:
+
+- `sudo apt-get install m4`
+
+Error 3: "make: sgml2latex: No such file or directory"
+
+Solution:
+
+1- The initial solution I tried was to install sgml2latex, however 
+this tool is deprecated so what I did in this case was manipulate the line
+which uses sgml2latex using vim so that it uses linuxdoc. This tool has
+to be installed using the following command:
+
+- `sudo apt-get install linuxdoc-tools`
+
+2- Then using vim, we change line 79 on the Makefile where sgml2latex is used (I changed this on the latest commit of this repo):
+
+- `sgml2latex bmap.sgml` -> `linuxdoc -B latex bmap.sgml`
+
+After this, make is supposed to be able to run as expected and the bmap binary to run, so do:
+
+- `make`
+
+It is important that you run with sudo privileges, so that it works properly.
+
+Also, something else that can be done that I personally recommend is that the directory where this bmap is added to the PATH,
+this can be done as follows:
+
+`PATH = $ PATH:/yourbmapdirectory/`
+
+This allows you to run bmap without having to specify the address.
+
 # bmap: A filesystem-independant file blockmap utility for Linux
 
  Maintained 2000 by Daniel Ridge in support of:
